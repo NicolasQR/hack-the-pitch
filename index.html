@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Granted</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: black;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      text-align: center;
+    }
+    .terminal {
+      white-space: pre-wrap;
+      animation: typing 2s steps(40, end) 1;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    iframe {
+      margin-top: 30px;
+      border: none;
+      width: 100%;
+      max-width: 720px;
+      height: 405px;
+    }
+    .click-message {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #39ff14;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    [ ACCESS GRANTED ]<br>
+    Initializing secure transmission...<br>
+    Loading Nico’s pitch... █████████████ 100%<br><br>
+  </div>
+
+  <!-- Video embebido -->
+  <iframe 
+    src="https://www.youtube.com/watch?v=J6qIzKxmW8Y"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+
+  <div class="click-message">
+    ▶ Presiona "Play" para iniciar la transmisión segura...
+  </div>
+</body>
+</html>
