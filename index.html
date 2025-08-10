@@ -1,50 +1,84 @@
-<script>
-  const output = document.getElementById('output');
-  const video = document.getElementById('pitchVideo');
-
-  const lines = [
-    '[ACCESS GRANTED]',
-    'User: nico@capygato',
-    'System: Terminal v1.0',
-    '',
-    '> whoami',
-    'nico',
-    '',
-    '> cd /pitch',
-    '> ls',
-    'pitch.mp4',
-    '',
-    '> play pitch.mp4',
-  ];
-
-  let lineIndex = 0;
-  let charIndex = 0;
-
-  function typeNextChar() {
-    if (lineIndex >= lines.length) {
-      video.style.display = 'block';
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>H4ckTheP1tch</title>
+  <style>
+    :root { --green:#33ff33; --bg:#000; }
+    html,body{height:100%;margin:0}
+    body{
+      background:var(--bg); color:var(--green);
+      font-family:"Courier New", monospace;
+      display:flex; align-items:center; justify-content:center;
     }
-
-    const currentLine = lines[lineIndex];
-    if (charIndex < currentLine.length) {
-      output.innerHTML += currentLine.charAt(charIndex);
-      charIndex++;
-      setTimeout(typeNextChar, 40);
-    } else {
-      output.innerHTML += '\n';
-      lineIndex++;
-      charIndex = 0;
-      setTimeout(typeNextChar, 300);
+    .console{
+      width:90%; max-width:860px; min-height:360px;
+      border:2px solid var(--green); box-shadow:0 0 12px var(--green);
+      padding:18px; box-sizing:border-box; background:#000;
     }
-  }
+    #output{white-space:pre-wrap; line-height:1.45; min-height:120px}
+    .cursor{display:inline-block; width:9px; height:1em; background:var(--green); vertical-align:-2px; animation:blink 1s steps(1) infinite}
+    @keyframes blink{50%{background:transparent}}
+    iframe, video{display:none; width:100%; height:405px; border:0; margin-top:16px}
+  </style>
+</head>
+<body>
+  <div class="console">
+    <div id="output"></div><span class="cursor" id="cursor"></span>
 
-  // Arrancar animación solo si output está disponible
-  window.onload = () => {
-    if (output) {
-      typeNextChar();
-    } else {
-      console.error("No se encontró el contenedor de salida.");
-    }
-  };
-</script>
+    
+    <iframe id="pitchVideo"
+      src="https://www.youtube.com/watch?v=vaTSQzYIR3U&list=RDvaTSQzYIR3U&start_radio=1"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const out = document.getElementById('output');
+      const iframe = document.getElementById('pitchVideo');  // usa este
+      // const mp4 = document.getElementById('pitchMp4');    // o este si vas con mp4
+
+      if(!out){ console.error('No se encontró #output'); return; }
+
+      const lines = [
+        '[ACCESS GRANTED]',
+        'User: nico@capygato',
+        'System: Terminal v1.0',
+        '',
+        '> whoami',
+        'nico',
+        '',
+        '> cd /pitch',
+        '> ls',
+        'pitch.mp4',
+        '',
+        '> play pitch.mp4'
+      ];
+
+      let li = 0, ci = 0;
+
+      function type() {
+        if (li >= lines.length) {
+          // Mostrar el video cuando termina el “comando”
+          if (iframe) iframe.style.display = 'block';
+          // if (mp4) mp4.style.display = 'block';
+          return;
+        }
+        const line = lines[li];
+        if (ci < line.length) {
+          out.textContent += line.charAt(ci++);
+          setTimeout(type, 35);
+        } else {
+          out.textContent += '\n';
+          li++; ci = 0;
+          setTimeout(type, 220);
+        }
+      }
+
+      type();
+    });
+  </script>
+</body>
+</html>
